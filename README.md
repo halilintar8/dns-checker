@@ -211,7 +211,6 @@ Antonio Di Virgilio - [@antoniodvr](https://linkedin.com/in/antoniodvr)
 [issues-shield]: https://img.shields.io/github/issues/antoniodvr/dns-checker.svg?style=flat-square
 [issues-url]: https://github.com/antoniodvr/dns-checker/issues
 [license-shield]: https://img.shields.io/github/license/antoniodvr/dns-checker.svg?style=flat-square
-[license-url]: https://github.com/antoniodvr/dns-checker/blob/master/LICENSE.txt
+[license-url]: https://github.com/antoniodvr/dns-checker/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/antoniodvr
-[product-screenshot]: images/screenshot.png
