@@ -4,19 +4,33 @@
 import whois
 import argparse
 import sys
-from datetime import datetime
+from domain import Domain
 
 def print_heading():
     """
        Pretty print heading
     """
-    print("%-25s  %-35s  %-30s  %-4s" % ("DOMAIN NAME", "REGISTRAR", "EXPIRATION DATE", "DAYS LEFT"))
+    print("%-25s  %-35s  %-25s  %-4s" % ("DOMAIN NAME", "REGISTRAR", "EXPIRATION DATE", "DAYS LEFT"))
 
 def print_whois(whois_data):
     """
        Pretty print the domain information
     """
-    print("%-25s  %-35s  %-30s  %-d" % (whois_data["name"], whois_data["registrar"], whois_data["expiration_date"], whois_data["days_remaining"]))
+    
+    print("%-25s  %-35s  %-25s  %-s" % (
+        whois_data.name, 
+        (whois_data.registrar[:30] + '...') if len(whois_data.registrar) > 30 else whois_data.registrar, 
+        whois_data.expiration_date, 
+        whois_data.expiration_days
+    ))
+
+def is_blank_or_comment(s):
+    """ function to check if a line
+         starts with some character.
+         Here # for comment or blank
+    """
+    # return true if a line starts with #
+    return not s.strip() or s.startswith('#')
 
 def execute_whois(domain_name):
     """
@@ -28,13 +42,10 @@ def execute_whois(domain_name):
         print("Failed to whois the domain name '%s'. Exception %s" % (domain_name, e))
         sys.exit(1)
 
-    try:
-        expiration_days = (whois_data.expiration_date - datetime.now()).days
-        whois_data = vars(whois_data)
-        whois_data["days_remaining"] = expiration_days
-    except:
-        print("Failed to calculate the expiration days")
-        sys.exit(1)
+    if whois_data is not None:
+        whois_data.__class__ = Domain
+    else:
+        whois_data = Domain(domain_name)
 
     return whois_data
 
@@ -56,8 +67,11 @@ def main():
     print_heading()
 
     if args.file:
-        with open(args.file, "r") as domains:
-            for domain_name in domains:
+        with open(args.file, "r") as lines:
+            for line in lines:
+                if is_blank_or_comment(line):
+                    continue
+                domain_name = line
                 whois_data = execute_whois(domain_name)
                 print_whois(whois_data)
     elif args.domain:
