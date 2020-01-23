@@ -112,7 +112,6 @@ $ cd dns-checker
 ```sh
 $ pip install -r requirements.txt
 ```
-b04 si
 
 
 <!-- USAGE EXAMPLES -->
